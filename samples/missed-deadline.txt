@@ -1,0 +1,53 @@
+Lisa: Okay so can someone explain why the client report still hasn't gone out? This was supposed to be done Monday.
+
+James: I sent my sections to Kevin on Friday.
+
+Kevin: I never received anything from you James.
+
+James: I sent it to your work email. I have the sent receipt.
+
+Kevin: Well it's not in my inbox. Did you check if it bounced?
+
+James: No because I assumed you received it. Why would I check if it bounced?
+
+Lisa: Okay this is exactly the kind of communication breakdown that keeps happening. Kevin, James — this is the third time this month a deliverable has been delayed because of handoff issues.
+
+Kevin: Lisa, with all due respect, I can't receive emails I was never sent.
+
+James: I sent the email Kevin!
+
+Lisa: Enough. James, resend it right now while we're on this call. Kevin, confirm receipt before we hang up.
+
+James: Fine.
+
+Lisa: Now can we talk about the client presentation? Rachel, where are we on the slides?
+
+Rachel: I've been waiting on the data from the analytics team for two weeks. I can't build slides without numbers.
+
+Lisa: Why didn't you escalate this earlier?
+
+Rachel: I did. I sent you three emails about it.
+
+Lisa: I don't recall receiving those.
+
+Rachel: I have them all in my sent folder Lisa.
+
+Lisa: Okay clearly we have a systemic email problem. Going forward everything goes in the project management tool, not email. Are we agreed?
+
+Kevin: Agreed.
+
+James: Fine by me.
+
+Rachel: Yes, that works.
+
+Lisa: Good. Rachel, I'll get you the analytics data by end of today personally. I want the slides ready by tomorrow noon.
+
+Rachel: Tomorrow noon is very tight but I'll try.
+
+Lisa: Not try Rachel. Done by noon. James, Kevin — I need the client report in my inbox within the hour. If there are any further delays I'm escalating this to the director.
+
+Kevin: Understood.
+
+James: Got it.
+
+Lisa: And someone please figure out the email situation. IT if necessary. This cannot keep happening.

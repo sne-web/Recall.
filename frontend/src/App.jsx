@@ -5,11 +5,7 @@ import Upload from "./pages/Upload"
 import MeetingDetail from "./pages/MeetingDetail"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
-
-function PrivateRoute({ children }) {
-  const token = localStorage.getItem("token")
-  return token ? children : <Navigate to="/login" />
-}
+import AppLayout from "./components/AppLayout"
 
 function App() {
   return (
@@ -18,16 +14,15 @@ function App() {
         <Route path="/" element={<Welcome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={
-          <PrivateRoute><Dashboard /></PrivateRoute>
-        } />
-        <Route path="/upload" element={
-          <PrivateRoute><Upload /></PrivateRoute>
-        } />
-        <Route path="/meeting/:id" element={
-          <PrivateRoute><MeetingDetail /></PrivateRoute>
-        } />
-        <Route path="*" element={<Navigate to="/" />} />
+
+        {/* Signed-in area: AppLayout guards on the token and renders the navbar once */}
+        <Route element={<AppLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/upload" element={<Upload />} />
+          <Route path="/meeting/:id" element={<MeetingDetail />} />
+        </Route>
+
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   )

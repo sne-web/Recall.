@@ -1,0 +1,53 @@
+Sarah: I want to start by saying I'm deeply concerned about the direction we're taking with the product redesign.
+
+Mark: Sarah, we've already discussed this multiple times. The decision has been made.
+
+Sarah: No, Mark, a decision was made without consulting the design team. That's my point.
+
+Mark: The design team had ample opportunity to raise concerns during the planning phase.
+
+Sarah: We were never invited to the planning phase. That's exactly the problem.
+
+David: Can we please focus on the agenda? We have limited time today.
+
+Sarah: David, this IS the agenda. We cannot move forward with a redesign that nobody on the ground level has approved.
+
+Mark: I'm sorry but the stakeholders have signed off on this. It's happening.
+
+Sarah: Then I want it on record that the design team formally objects to this timeline.
+
+Mark: Noted. Moving on — the launch is scheduled for April 15th. Tom, can you confirm the development timeline?
+
+Tom: Honestly Mark, April 15th is not realistic. We need at least six more weeks.
+
+Mark: Six weeks is out of the question. The board has committed to investors.
+
+Tom: Then we ship something broken. That's the only other option.
+
+David: Tom, that's not helpful.
+
+Tom: I'm being honest, David. We decided to cut the testing phase to save two weeks. That was a mistake.
+
+Mark: We made that call based on resource constraints.
+
+Tom: No, you made that call. The engineering team was not consulted.
+
+Sarah: See, this is exactly what I was talking about. Decisions are being made top-down with no input from the people actually doing the work.
+
+Mark: Alright, I hear the frustration. Let's take a step back. Tom, what specifically needs more time?
+
+Tom: Authentication module, payment integration, and at minimum two rounds of QA testing.
+
+Mark: Okay. I'll go back to the board and negotiate for three additional weeks. That's the best I can do.
+
+Tom: Three weeks for all of that?
+
+Mark: Take it or leave it Tom. Sarah, I need the design team to have final assets ready by end of next week regardless.
+
+Sarah: End of next week is Thursday. That gives us four days.
+
+Mark: Then start today. David, I need you to coordinate between the teams and give me a daily status update.
+
+David: Understood. I'll set up a standup at 9am starting tomorrow.
+
+Mark: Good. Let's reconvene Friday to assess where we are.

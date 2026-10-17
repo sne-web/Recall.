@@ -1,0 +1,49 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:08.000
+Alex: Good morning everyone. Today we're reviewing the Q2 product roadmap and deciding what makes the cut.
+
+00:00:08.000 --> 00:00:18.000
+Priya: I've prepared a summary of user feedback from last quarter. The top request by far is offline mode — about 67% of users mentioned it.
+
+00:00:18.000 --> 00:00:28.000
+Alex: That's significant. Ben, what's the engineering estimate for offline mode?
+
+00:00:28.000 --> 00:00:40.000
+Ben: We're looking at roughly six weeks of development. It's not trivial — we'd need to rethink data sync across the board.
+
+00:00:40.000 --> 00:00:52.000
+Alex: Six weeks puts us right at the Q2 boundary. Priya, what's the second most requested feature?
+
+00:00:52.000 --> 00:01:04.000
+Priya: Advanced search. Users want to filter by date, tags, and content type simultaneously. Engineering estimate on that Ben?
+
+00:01:04.000 --> 00:01:14.000
+Ben: Two weeks. Much more straightforward than offline mode.
+
+00:01:14.000 --> 00:01:26.000
+Alex: Okay here's what I'm thinking. We prioritise advanced search for Q2 since it's achievable and high impact. Offline mode goes to Q3 planning.
+
+00:01:26.000 --> 00:01:36.000
+Priya: I agree with that. We should also communicate the offline mode timeline to users so they know it's coming.
+
+00:01:36.000 --> 00:01:48.000
+Ben: Agreed. I can have the advanced search feature in staging by end of Q2. I'll need design assets from Priya by week two.
+
+00:01:48.000 --> 00:02:00.000
+Priya: I'll have designs ready by Friday next week. Alex should we also discuss the pricing page redesign?
+
+00:02:00.000 --> 00:02:14.000
+Alex: Good point. We decided last month to test a new pricing structure. Ben can you implement the pricing page changes in parallel with advanced search?
+
+00:02:14.000 --> 00:02:26.000
+Ben: I can if I get an additional developer. With just me it's too much for one sprint.
+
+00:02:26.000 --> 00:02:38.000
+Alex: Understood. I'll request an additional resource from the CTO today. Priya please document all three decisions from today's meeting and share with the team by EOD.
+
+00:02:38.000 --> 00:02:50.000
+Priya: Will do. I'll send the summary to the whole product team by 5pm today.
+
+00:02:50.000 --> 00:03:00.000
+Alex: Perfect. We're aligned. Let's reconvene next Friday to check progress.

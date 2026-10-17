@@ -5,16 +5,13 @@ uvicorn==0.30.6
 python-multipart==0.0.9
 python-dotenv==1.0.1
 pydantic==2.8.2
-anthropic==0.34.2
 groq
-langchain==0.3.1
-langchain-community==0.3.1
+langchain-text-splitters==0.3.8
 langchain-huggingface==0.1.0
 chromadb==0.5.7
+posthog<4  # chromadb 0.5.x telemetry crashes on posthog 4+ API
 sentence-transformers==3.1.1
-pandas==2.2.3
 reportlab==4.2.2
-aiofiles==24.1.0
 email-validator
 supabase
 requests

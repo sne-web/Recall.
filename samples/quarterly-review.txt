@@ -1,0 +1,21 @@
+John: Good morning everyone. Let's get started with the quarterly review.
+
+Sarah: Thanks John. I wanted to discuss the API launch timeline first.
+
+John: Right, so we decided to delay the API launch by two weeks to allow for more testing.
+
+Mike: I agree with that decision. Sarah, can you update the documentation by next Friday?
+
+Sarah: Sure, I'll have the documentation ready by Friday the 15th.
+
+John: Great. Mike, we also need you to coordinate with the DevOps team to set up the staging environment by end of this week.
+
+Mike: Got it. I'll reach out to DevOps today.
+
+Sarah: One more thing — the Finance team raised concerns about the cloud costs going over budget.
+
+John: Good point. We decided to optimize the database queries first before scaling up. Mike can you handle that by next Wednesday?
+
+Mike: Yes, I'll have the optimization done by Wednesday.
+
+John: Perfect. Let's wrap up — main decisions were to delay the API launch and optimize the database. Action items assigned to Sarah and Mike. Meeting adjourned.

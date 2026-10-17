@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
+import { useNavigate, useSearchParams, Link } from "react-router-dom"
+import { apiJson, saveSession } from "../api/client"
 
 function Login() {
   const [email, setEmail] = useState("")
@@ -7,33 +8,22 @@ function Login() {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const sessionExpired = searchParams.get("expired") === "1"
 
   async function handleLogin(e) {
-    if (e) e.preventDefault()
+    e.preventDefault()
     if (!email || !password) {
       setError("Please fill in all fields")
       return
     }
-    
+
     setLoading(true)
     setError("")
-    
+
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ email, password })
-      })
-      
-      const data = await response.json()
-      
-      if (!response.ok) {
-        throw new Error(data.detail || "Login failed")
-      }
-      
-      localStorage.setItem("token", data.access_token)
+      const data = await apiJson("/auth/login", { method: "POST", json: { email, password }, auth: false })
+      saveSession(data)
       navigate("/dashboard")
     } catch (err) {
       setError(err.message)
@@ -61,6 +51,7 @@ function Login() {
             <label className="block text-gray-400 text-sm mb-2">Email Address</label>
             <input
               type="email"
+              autoComplete="email"
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -74,6 +65,7 @@ function Login() {
             <label className="block text-gray-400 text-sm mb-2">Password</label>
             <input
               type="password"
+              autoComplete="current-password"
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -82,6 +74,12 @@ function Login() {
                          focus:outline-none focus:border-[#00d4e8] transition-colors"
             />
           </div>
+
+          {sessionExpired && !error && (
+            <p className="text-yellow-400 text-xs text-center bg-yellow-400/10 py-2 rounded-lg">
+              Your session expired. Please log in again.
+            </p>
+          )}
 
           {error && <p className="text-red-400 text-xs text-center bg-red-400/10 py-2 rounded-lg">{error}</p>}
 

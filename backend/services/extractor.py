@@ -1,24 +1,21 @@
-import json
-import re
-from services.llm_client import ask_ai
+from services.llm_client import ask_ai, parse_json_response
 
-# This is the system prompt — it tells the AI what role to play
-# and what format to respond in
-EXTRACTION_SYSTEM_PROMPT = """You are an expert meeting analyst. 
+EXTRACTION_SYSTEM_PROMPT = """You are an expert meeting analyst.
 Your job is to carefully read meeting transcripts and extract:
 1. Key decisions that were made
 2. Action items that were assigned to specific people
 
 Always respond with valid JSON only. No explanations, no markdown, just JSON."""
 
+PRIORITIES = {"high", "medium", "low"}
+
+
 def extract_decisions_and_actions(transcript_text: str) -> dict:
     """
-    Sends the transcript to the AI and asks it to extract
-    decisions and action items as structured JSON.
-    
-    Returns a dict with 'decisions' and 'action_items' lists.
+    Asks the LLM for decisions and action items as structured JSON.
+    Returns {"decisions": [...], "action_items": [...]}; both lists are empty
+    if the model's reply can't be parsed.
     """
-
     prompt = f"""Please analyse this meeting transcript and extract all decisions and action items.
 
 TRANSCRIPT:
@@ -49,21 +46,34 @@ Rules:
 - Decisions are things the group agreed on
 - Action items are tasks assigned to specific people"""
 
-    try:
-        response = ask_ai(prompt, system=EXTRACTION_SYSTEM_PROMPT, max_tokens=3000)
-        
-        # The AI should return pure JSON but sometimes adds extra text
-        # This finds the JSON object within the response just in case
-        json_match = re.search(r'\{.*\}', response, re.DOTALL)
-        if json_match:
-            result = json.loads(json_match.group())
-        else:
-            result = json.loads(response)
-            
-        return result
-    
-    except json.JSONDecodeError:
-        # If the AI returns something we can't parse, return empty results
+    response = ask_ai(prompt, system=EXTRACTION_SYSTEM_PROMPT, max_tokens=3000)
+    result = parse_json_response(response)
+    if not isinstance(result, dict):
         return {"decisions": [], "action_items": []}
-    except Exception as e:
-        raise Exception(f"Extraction failed: {str(e)}")
+    return normalise_extraction(result)
+
+
+def normalise_extraction(result: dict) -> dict:
+    """Coerces the model's output into the exact shape the frontend and exports expect."""
+    decisions = [
+        {
+            "description": str(d.get("description") or "").strip(),
+            "context": str(d.get("context") or "").strip(),
+        }
+        for d in (result.get("decisions") or [])
+        if isinstance(d, dict) and d.get("description")
+    ]
+
+    action_items = []
+    for a in result.get("action_items") or []:
+        if not isinstance(a, dict) or not a.get("what"):
+            continue
+        priority = str(a.get("priority") or "").strip().lower()
+        action_items.append({
+            "who": str(a.get("who") or "Unassigned").strip(),
+            "what": str(a.get("what")).strip(),
+            "by_when": str(a.get("by_when") or "Not specified").strip(),
+            "priority": priority if priority in PRIORITIES else "medium",
+        })
+
+    return {"decisions": decisions, "action_items": action_items}

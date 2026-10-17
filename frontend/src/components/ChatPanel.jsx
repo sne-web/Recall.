@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react"
+import { apiJson } from "../api/client"
 
 // ChatPanel is the chatbot UI component.
 // It receives a meetingId prop so it knows which meeting to query.
@@ -37,35 +38,13 @@ function ChatPanel({ meetingId = null }) {
     setLoading(true)
 
     try {
-      const response = await fetch("/api/chat/ask", {
+      const data = await apiJson("/chat/ask", {
         method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
-        },
-        // Send question and optional meeting_id to backend
-        body: JSON.stringify({
-          question,
-          meeting_id: meetingId
-        })
+        json: { question, meeting_id: meetingId },
       })
-
-      if (!response.ok) throw new Error("Chat request failed")
-
-      const data = await response.json()
-
-      // Add AI response to chat
-      setMessages(prev => [...prev, {
-        role: "assistant",
-        content: data.answer,
-        sources: data.sources
-      }])
-
+      setMessages(prev => [...prev, { role: "assistant", content: data.answer, sources: data.sources }])
     } catch (err) {
-      setMessages(prev => [...prev, {
-        role: "assistant",
-        content: "Sorry, I couldn't process that question. Please try again."
-      }])
+      setMessages(prev => [...prev, { role: "assistant", content: `Sorry, something went wrong: ${err.message}`, error: true }])
     } finally {
       setLoading(false)
     }
@@ -73,8 +52,9 @@ function ChatPanel({ meetingId = null }) {
 
   if (!isOpen) {
     return (
-      <button 
+      <button
         onClick={() => setIsOpen(true)}
+        aria-label="Open chat"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         className={`fixed bottom-8 right-8 z-50 bg-[#00d4e8] text-[#0d1117] 
@@ -107,7 +87,8 @@ function ChatPanel({ meetingId = null }) {
           </span>
         </div>
         <button 
-          onClick={() => setIsOpen(false)} 
+          onClick={() => setIsOpen(false)}
+          aria-label="Minimise chat"
           className="text-gray-500 hover:text-white transition-colors p-1"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -118,44 +99,33 @@ function ChatPanel({ meetingId = null }) {
 
       {/* Messages area */}
       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
-        {messages.map((msg, i) => {
-          let mainContent = msg.content;
-          let supportedBy = null;
-          
-          if (msg.role === "assistant" && typeof msg.content === "string" && msg.content.includes("(Supported by")) {
-            const parts = msg.content.split("(Supported by");
-            mainContent = parts[0].trim();
-            supportedBy = parts[1].trim();
-            if (supportedBy.endsWith(")")) {
-              supportedBy = supportedBy.slice(0, -1).trim();
-            }
-          }
+        {messages.map((msg, i) => (
+          <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+            <div className="max-w-[85%]">
 
-          return (
-            <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-              <div className={`max-w-[80%] ${msg.role === "user" ? "order-2" : "order-1"}`}>
-
-                {/* Message bubble */}
-                <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed ${
-                  msg.role === "user"
-                    ? "bg-[#00d4e8] text-[#0d1117] font-medium rounded-tr-sm"
-                    : "bg-[#0d1117] text-white border border-[#21262d] rounded-tl-sm"
-                }`}>
-                  {mainContent}
-                </div>
-
-                {/* Supported By Source */}
-                {supportedBy && (
-                  <div className="mt-2 bg-[#0d1117] border border-[#21262d] rounded-lg px-3 py-2">
-                    <p className="text-gray-500 text-xs leading-relaxed">
-                      Supported by {supportedBy}
-                    </p>
-                  </div>
-                )}
+              {/* Message bubble */}
+              <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
+                msg.role === "user"
+                  ? "bg-[#00d4e8] text-[#0d1117] font-medium rounded-tr-sm"
+                  : `bg-[#0d1117] border border-[#21262d] rounded-tl-sm ${msg.error ? "text-red-400" : "text-white"}`
+              }`}>
+                {msg.content}
               </div>
+
+              {/* Sources: the transcript chunks the answer was retrieved from */}
+              {msg.sources?.length > 0 && (
+                <div className="mt-2 space-y-1.5">
+                  {msg.sources.map((src) => (
+                    <div key={src.meeting_id} className="bg-[#0d1117] border border-[#21262d] rounded-lg px-3 py-2">
+                      <p className="text-[#00d4e8] text-xs font-medium truncate">📄 {src.filename}</p>
+                      <p className="text-gray-500 text-xs leading-relaxed mt-0.5">{src.snippet}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-          )
-        })}
+          </div>
+        ))}
 
         {/* Loading indicator — shows while waiting for AI response */}
         {loading && (
@@ -185,7 +155,8 @@ function ChatPanel({ meetingId = null }) {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          placeholder="Ask about this meeting..."
+          maxLength={2000}
+          placeholder={meetingId ? "Ask about this meeting..." : "Ask about your meetings..."}
           disabled={loading}
           className="flex-1 bg-[#0d1117] border border-[#21262d] text-white 
                      placeholder-gray-600 rounded-xl px-4 py-2.5 text-sm
